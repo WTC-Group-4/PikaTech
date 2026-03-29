@@ -1,0 +1,25 @@
+CutBoard – Project Explanation
+1. Introduction
+CutBoard is a role-based video workflow and collaboration platform designed to streamline the video production process by centralizing tasks, file management, and feedback in a single system.
+2. Problem Statement
+In traditional workflows, teams use multiple tools like Google Drive, WhatsApp, and Slack, which leads to version confusion, unorganized files, scattered feedback, and lack of a single source of truth.
+3. Solution
+CutBoard provides a structured platform where each team member has a defined role, and all activities are managed within a unified workflow.
+4. Workflow System
+The system uses a Kanban-based workflow where projects move through stages:
+Research → Scripting → Shooting → Editing → Review → Published, ensuring clear progress tracking.
+5. Role-Based System
+Each user is assigned a specific role such as Researcher, Script Writer, Editor, Reviewer, and Manager, ensuring clear responsibility and accountability.
+6. Version Control
+Editors upload multiple versions of videos, but only one is marked as the latest, eliminating confusion and maintaining consistency.
+7. Review System
+The platform includes a timestamp-based review system where reviewers can add comments at specific time points, and clicking the comment navigates directly to that moment in the video.
+8. Technology Stack
+Frontend: Next.js
+Backend: Node.js with Express
+Database: MongoDB
+Storage: Cloudinary or AWS S3
+9. Security
+Authentication is handled using JWT tokens, and passwords are securely stored using hashing techniques to ensure safe access control.
+10. Conclusion
+CutBoard provides a structured, efficient, and collaborative environment for video production teams, reducing miscommunication and improving overall workflow efficiency.
