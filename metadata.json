@@ -1,0 +1,5 @@
+{
+  "name": "CutBoard",
+  "description": "A multi-platform web app for video content creators and media production teams to plan, create, review, edit, approve, and publish video content from one place.",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"]
+}

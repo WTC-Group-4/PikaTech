@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the CutBoard platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique ID of the user." },
+        "email": { "type": "string", "format": "email", "description": "The email address of the user." },
+        "displayName": { "type": "string", "description": "The display name of the user." },
+        "role": { "type": "string", "enum": ["Host", "Researcher", "Script Writer", "Shooting Crew", "Editor", "Reviewer"], "description": "The role of the user." },
+        "permissions": { "type": "object", "description": "Custom permissions for the user." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user account was created." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A video production project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the project." },
+        "name": { "type": "string", "description": "The name of the project." },
+        "description": { "type": "string", "description": "A brief description of the project." },
+        "stage": { "type": "string", "enum": ["Research", "Scripting", "Pre-Production", "Shooting", "Editing", "Review", "Published"], "description": "The current stage of the project." },
+        "authorId": { "type": "string", "description": "The UID of the user who created the project." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the project was created." }
+      },
+      "required": ["name", "stage", "authorId", "createdAt"]
+    },
+    "File": {
+      "title": "File",
+      "description": "A file associated with a project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the file." },
+        "projectId": { "type": "string", "description": "The ID of the project this file belongs to." },
+        "name": { "type": "string", "description": "The name of the file." },
+        "type": { "type": "string", "description": "The MIME type or category of the file." },
+        "url": { "type": "string", "format": "uri", "description": "The URL to the file." },
+        "metadata": { "type": "object", "description": "Metadata like take number, camera label, etc." },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "The status of the file." },
+        "authorId": { "type": "string", "description": "The UID of the user who uploaded the file." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the file was uploaded." }
+      },
+      "required": ["projectId", "name", "url", "status", "authorId", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A timestamped comment on a video cut.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the comment." },
+        "projectId": { "type": "string", "description": "The ID of the project." },
+        "fileId": { "type": "string", "description": "The ID of the file (video cut) being commented on." },
+        "authorId": { "type": "string", "description": "The UID of the user who made the comment." },
+        "text": { "type": "string", "description": "The content of the comment." },
+        "timestamp": { "type": "number", "description": "The video timestamp in seconds." },
+        "resolved": { "type": "boolean", "description": "Whether the comment has been resolved." },
+        "parentId": { "type": "string", "description": "The ID of the parent comment for threading." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the comment was made." }
+      },
+      "required": ["projectId", "fileId", "authorId", "text", "resolved", "createdAt"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "A log of an important action in the platform.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the activity." },
+        "projectId": { "type": "string", "description": "The ID of the project (optional)." },
+        "authorId": { "type": "string", "description": "The UID of the user who performed the action." },
+        "action": { "type": "string", "description": "A description of the action." },
+        "details": { "type": "object", "description": "Additional details about the action." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the action occurred." }
+      },
+      "required": ["authorId", "action", "timestamp"]
+    },
+    "SocialAccount": {
+      "title": "SocialAccount",
+      "description": "A connected social media account.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the connection." },
+        "userId": { "type": "string", "description": "The UID of the user who owns the account." },
+        "platform": { "type": "string", "enum": ["YouTube", "Instagram"], "description": "The social media platform." },
+        "accessToken": { "type": "string", "description": "The OAuth access token." },
+        "refreshToken": { "type": "string", "description": "The OAuth refresh token." },
+        "expiresAt": { "type": "string", "format": "date-time", "description": "When the access token expires." }
+      },
+      "required": ["userId", "platform", "accessToken"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles and roles." },
+    "/projects/{projectId}": { "schema": "Project", "description": "Project details and stages." },
+    "/projects/{projectId}/files/{fileId}": { "schema": "File", "description": "Files associated with a project." },
+    "/projects/{projectId}/comments/{commentId}": { "schema": "Comment", "description": "Comments on project files." },
+    "/activities/{activityId}": { "schema": "Activity", "description": "Global activity logs." },
+    "/users/{uid}/socialAccounts/{accountId}": { "schema": "SocialAccount", "description": "Connected social accounts for a user." }
+  }
+}
